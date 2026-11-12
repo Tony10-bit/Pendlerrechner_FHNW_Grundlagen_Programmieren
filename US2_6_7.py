@@ -1,7 +1,7 @@
-# US2, US6, US7 - Altersgruppe, guenstigste Option, Begruendung
+# US2, US6, US7 - Altersgruppe, guenstigste Option, Begründung
 # US2: Alter eingeben, Altersgruppe bestimmen, Preise holen
-# US6: Jahreskosten aller Optionen berechnen und guenstigste anzeigen
-# US7: Begruendung der Empfehlung (folgt)
+# US6: Jahreskosten aller Optionen berechnen und günstigste anzeigen (folgt)
+# US7: Begründung der Empfehlung (folgt)
 
 from preise import PREISE, PREISSTAND
 
