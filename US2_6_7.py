@@ -1,9 +1,12 @@
-# US2 - Altersgruppe eingeben
-# Der Benutzer gibt sein Alter ein, das Programm bestimmt die Altersgruppe
-# und holt die passenden Preise aus preise.py
+# US2, US6, US7 - Altersgruppe, guenstigste Option, Begruendung
+# US2: Alter eingeben, Altersgruppe bestimmen, Preise holen
+# US6: Jahreskosten aller Optionen berechnen und guenstigste anzeigen
+# US7: Begruendung der Empfehlung (folgt)
 
 from preise import PREISE, PREISSTAND
 
+
+# ---------------- US2: Altersgruppe eingeben ----------------
 
 # fragt so lange nach, bis eine gueltige Zahl eingegeben wird
 def frage_zahl(frage):
@@ -11,14 +14,21 @@ def frage_zahl(frage):
         eingabe = input(frage).strip()
         if eingabe.isdigit():
             return int(eingabe)
-        print("Bitte eine gueltige Zahl eingeben.")
+        print("Bitte eine gültige Zahl eingeben.")
+
+
+# fragt so lange nach, bis ja oder nein eingegeben wird
+def frage_ja_nein(frage):
+    while True:
+        antwort = input(frage).strip().lower()
+        if antwort == "ja" or antwort == "nein":
+            return antwort == "ja"
+        print("Bitte ja oder nein eingeben.")
 
 
 # ordnet das Alter einer Altersgruppe zu
 def bestimme_altersgruppe(alter):
-    if alter < 6:
-        return "Gratis"
-    elif alter <= 15:
+    if alter <= 15:
         return "Kind"
     elif alter <= 24:
         return "Jugend"
@@ -28,25 +38,36 @@ def bestimme_altersgruppe(alter):
         return "Senior"
 
 
-# fragt das Alter ab, zeigt die Altersgruppe an und gibt das Profil zurueck
+# fragt Alter und Halbtax ab, teilt einer Gruppe zu und gibt das Profil zurueck
 def erfasse_profil():
     alter = frage_zahl("Wie alt bist du? ")
     gruppe = bestimme_altersgruppe(alter)
+    hat_halbtax = frage_ja_nein("Besitzt du bereits ein Halbtax? (ja/nein): ")
 
-    while gruppe == "Gratis":
-        print("Kinder unter 6 Jahren reisen gratis. Du brauchst kein Abo.")
-        alter = frage_zahl("Wie alt bist du? ")
-        gruppe = bestimme_altersgruppe(alter)
+    # Kopie machen, damit die Preistabelle selbst nicht veraendert wird
+    preise = dict(PREISE[gruppe])
 
-    preise = PREISE[gruppe]
+    # wer schon ein Halbtax hat, muss es nicht nochmals kaufen
+    if hat_halbtax:
+        preise["halbtax"] = 0
+
     print(f"Altersgruppe: {gruppe}")
+    if alter < 6:
+        print("Hinweis: Kinder unter 6 Jahren reisen in Begleitung gratis.")
+    if hat_halbtax:
+        print("Du hast bereits ein Halbtax. Es wird nicht nochmals verrechnet.")
     print(f"Preise (Stand {PREISSTAND}): Halbtax CHF {preise['halbtax']}, GA CHF {preise['ga']}")
 
-    profil = {"alter": alter, "gruppe": gruppe, "preise": preise}
+    profil = {"alter": alter, "gruppe": gruppe, "hat_halbtax": hat_halbtax, "preise": preise}
     return profil
 
 
-# nur zum Testen, wenn man diese Datei direkt startet
-if __name__ == "__main__":
-    profil = erfasse_profil()
-    print(profil)
+# ---------------- US6: Guenstigste Option anzeigen ----------------
+
+# folgt
+
+
+# ---------------- US7: Begruendung der Empfehlung ----------------
+
+# folgt
+
